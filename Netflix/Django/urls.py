@@ -27,8 +27,8 @@ from django.conf import settings
 '''
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('v1.urls', namespace= 'v1'),
-    )
+    path('', include('v1.urls', namespace= 'v1')),
+    path('accounts/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:

@@ -39,6 +39,7 @@ BASE_DIR= Path(__file__).resolve().parent.parent
 '''
 SECRET_KEY = 'x'
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 '''
 디버그 모드는 프로그램을 개발할 때, 사용되는 모드입니다.
@@ -90,6 +91,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'v1',
+
+    # 타사 앱(third party apss)
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 
@@ -332,3 +340,47 @@ AbstractUser를 상속받은 새 모델을 만들었다면, 이 모델을 유저
 
 '''
 AUTH_USER_MODEL= 'v1.CustomUser'
+
+
+'''
+Django session 기반의 인증 시스템입니다.
+    'django.contrib.auth.backends.ModelBackend'는 Django의 기본 인증 시스템입니다.
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    위의 기능을 INSTALLED_APPS에 추가해야 합니다.
+'''
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+
+'''
+내가 만들 사이트의 수를 입력합니다.
+INSTALLED_APPS에 'django.contrib.sites'를 추가해야 합니다.
+
+INSTALLED_APPS에 'django.contrib.sites'를 추가하면, 어떠한 기능을 여러 웹 사이트에서 사용할 수 있게 해줍니다.
+즉 비슷한 컨텐츠나 기능을 가진 웹 사이트가 여러 개 필요할 때, Django 프로젝트 하나로 여러 사이트를 운영할 수 있다는 것입니다.
+'''
+SITE_ID= 1
+
+
+'''
+Django allauth를 사용하면, 단 3줄의 코드로 이메일로 로그인 기능을 구현할 수 있습니다.
+1. 로그인 시에 USER Name이 아니라 'email'을 사용하게 하는 설정
+2. 화원가입 시, 'email'을 필수 항목으로 만드는 설정
+3. USER Name을 필수 항목에서 제거하는 설정
+4. 계정 이메일 인증 여부를 설정 - 'mandaroty', 'optional', 'none'
+
+'''
+ACCOUNT_AUTHENTICATION_METHOD= 'email'
+ACCOUNT_EMAIL_REQUIRED= True
+ACCOUNT_USERNAME_REQUIRED= False
+ACCOUNT_EMAIL_VERIFICATION= 'none' # 클론 코딩이기 때문에
+
+LOGIN_REDIRECT_URL= '/'

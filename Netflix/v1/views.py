@@ -9,3 +9,4 @@ Netflix - Home
 class HomeViewSet(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'index.html')
+
