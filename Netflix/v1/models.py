@@ -30,6 +30,7 @@ class CustomUser(AbstractUser):
     '''
     관계 분야 필드입니다.
     다대다 관계를 저장하는 필드입니다.
+    테이블 명: 'Profile'
     blank= True -> 빈 값을 허용합니다.
 
     null= True를 함께 설정하면 “데이터 없음”에 대해 두 가지 값, 즉 None 과 빈 문자열 을 갖게 됩니다.
@@ -37,6 +38,15 @@ class CustomUser(AbstractUser):
     그리고 무엇보다 Null이 아닌 빈 문자열을 사용하는 것이 장고 컨벤션입니다.
     '''
     profiles= models.ManyToManyField('Profile', blank= True)
+
+
+
+'''
+Model
+
+Django의 모델들은 모두 django.db.models.Model의 subclasses입니다.
+각 모델의 속성은 DB 필드입니다.
+'''
 
 
 '''
@@ -49,6 +59,7 @@ class Profile(models.Model):
     name= models.CharField(max_length= 225)
     age_limit= models.CharField(max_length= 10, choices= AGE_CHOICES)
     uuid= models.UUIDField(default= uuid.uuid4)
+
 
 '''
 영화
@@ -73,6 +84,7 @@ class Movie(models.Model):
     videos= models.ManyToManyField('Video')
     flyer= models.ImageField(upload_to= 'flyers')
     age_limit= models.CharField(max_length= 10, choices= AGE_CHOICES)
+
 
 # 개별 비디오나 영화 파일을 그대로 유지?
 '''
