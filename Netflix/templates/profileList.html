@@ -16,7 +16,7 @@
         <div class="flex flex-wrap justify-center items-center w-10/12  md:w-6/12">
 
             {% for profile in profiles %}
-            <a href="#">
+            <a href="{% url 'v1:watch' profile_id=profile.uuid %}">
                 <div class="w-32 h-32 m-4 flex flex-col justify-center align-center text-center bg-blue-500 rounded-md cursor-pointer">
                     <p class="text-6xl">
                     {{profile.name | slice:"1"}}
@@ -31,9 +31,12 @@
             
         </div>
         <div class="flex justify-center items-center">
-            <button class="px-4 py-2 rounded-md outline-none bg-gray-400 text-gray-100">
-                Add A New Profile
-            </button>
+            <a href="{% url 'v1:profile_create' %}">
+                <button class="px-4 py-2 rounded-md outline-none bg-gray-400 text-gray-100">
+                    프로필 추가
+                </button>
+            </a>
+            
         </div>
     </section>
 {% endblock content %}

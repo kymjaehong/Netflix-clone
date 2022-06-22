@@ -315,11 +315,11 @@ BASEDIR/'static'을 사용합니다.
 
 STATICFILES_DIRS: 정적 파일이 위치한 경로 목록을 설정합니다.
 '''
-STATIC_ROOT= BASE_DIR / 'static_root'
-MEDIA_ROOT= BASE_DIR / 'media'
+STATIC_ROOT= BASE_DIR/'static_root'
+MEDIA_ROOT= BASE_DIR/'media'
 MEDIA_URL= '/media/'
 
-STATICFILES_DIRS= [BASE_DIR / 'static']
+STATICFILES_DIRS= [BASE_DIR/'static']
 
 
 # Default primary key field type

@@ -3,7 +3,7 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from v1.models import Profile
+from v1.models import Profile, Movie
 
 from .forms import ProfileForm
 
@@ -71,7 +71,7 @@ Netflix - ProfileCreate
 - get()
 
 - post()
-프로파일 생성 시,
+프로필 객체 생성
 
 '''
 @method_decorator(login_required, name= 'dispatch')
@@ -152,3 +152,69 @@ class ProfileCreate(View):
         return render(request, 'profileCreate.html', {
             'form': form
         })
+
+
+'''
+Netflix - Movie List
+'''
+@method_decorator(login_required, name= 'dispatch')
+class Watch(View):
+    def get(self, request, profile_id, *args, **kwargs):
+        try:
+            profile= Profile.objects.get(uuid= profile_id)
+            # db에서 모든 영화 수집
+            '''
+            .filter()와 .all()은 QuerySet을 반환합니다.
+            '''
+            movies= Movie.objects.filter(age_limit= profile.age_limit)
+
+            # 프로필의 해당 페이지 목록에 접속하고 있는지 확인
+            if profile not in request.user.profiles.all():
+                return redirect('v1:profile_list')
+            
+            return render(request, 'movieList.html', {
+              'movies': movies  
+            })
+        # 프로필 테이블이 존재하지 않으면, 프로필 리스트 url로 이동
+        except Profile.DoesNotExist:
+            return redirect('v1:profile_list')
+
+
+'''
+Netflix - Movie Detail
+'''
+@method_decorator(login_required, name= 'dispatch')
+class ShowMovieDetail(View):
+    def get(self, request, movie_id, *args, **kwarg):
+        try:
+            movie= Movie.objects.get(uuid= movie_id)
+            # print(movie)-> 200 3686
+
+            return render(request, 'movieDetail.html', {
+                'movie': movie
+            })
+        
+        except Movie.DoesNotExist:
+            return redirect('v1:profile_list')
+
+
+
+@method_decorator(login_required, name= 'dispatch')
+class ShowMovie(View):
+    def get(self, request, movie_id, *args, **kwargs):
+        try:
+            movie= Movie.objects.get(uuid= movie_id)
+            '''
+            .values()
+            QuerySet을 딕셔너리 형태로 반환합니다.
+            '''
+            movie= movie.videos.values()
+            # print(movie)-> <QuerySet [{'id': 1, 'title': '', 'file': 'movies/baby.mp4'}]>
+            # print(list(movie))-> [{'id': 1, 'title': '', 'file': 'movies/baby.mp4'}]
+
+            return render(request, 'showMovie.html', {
+                'movie': list(movie)
+            })
+
+        except Movie.DoesNotExist:
+            return redirect('v1:profile_list')

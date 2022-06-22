@@ -50,7 +50,7 @@ Django의 모델들은 모두 django.db.models.Model의 subclasses입니다.
 
 
 '''
-프로파일
+프로필
     이름: 적은 문자열을 저장하는 문자열 필드, CharField, 최대 길이를 명시해야 합니다.
     나이 제한: 위와 같으며, choices 필드 옵션을 사용하여 드롭 다운 메뉴를 만들었습니다.
     uuid: UUID 전용 필드로 UUID 데이터 유형만 저장할 수 있는 필드, UUIDField
